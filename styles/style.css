@@ -75,7 +75,7 @@ ol {
 }
 
 .content__details {
-  inline-size: 399px; /* TODO разобраться с нежёстким размером.*/
+  inline-size: 399px;
   block-size: 100%;
 }
 
@@ -83,7 +83,7 @@ ol {
   position: relative;
   block-size: 298px;
   text-overflow: clip;
-  overflow: scroll;
+  overflow: auto;
   margin-top: 26px;
 }
 
@@ -219,7 +219,6 @@ fieldset {
 
 .search-form__textfield {
   background-color: transparent;
-  /* margin: 2px; */
   border: none;
   width: 225px;
   border-top: 1px solid #fff;
@@ -264,30 +263,21 @@ fieldset {
 }
 
 .search-form__pseudo-checkbox {
-  position: relative;
+  /* position: relative; */
   display: inline-block;
   inline-size: 19px;
   block-size: 19px;
   border: 1px solid #fff;
 }
 
-input[type="checkbox"]:checked + .search-form__pseudo-checkbox::before {
+input[type="checkbox"]:checked + .search-form__pseudo-checkbox::after,
+input[type="checkbox"]:not(:checked)
+  + .search-form__pseudo-checkbox:active::after {
   content: "";
-  position: absolute;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  border: 1px solid black;
-  background-color: #fff;
-}
-
-.search-form__pseudo-checkbox:active::before {
-  content: "";
-  position: absolute;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  border: 1px solid black;
+  display: block;
+  margin: 1px;
+  width: 15px;
+  height: 15px;
   background-color: #fff;
 }
 
