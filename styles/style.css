@@ -11,6 +11,7 @@ html {
 .page {
   display: flex;
   justify-content: center;
+  align-items: center;
   inline-size: 1200px;
   block-size: 100%;
   margin: auto;
@@ -46,7 +47,6 @@ ol {
   max-inline-size: 1140px;
   max-block-size: 534px;
   gap: 30px;
-  margin-top: 133px;
 }
 
 .result {
@@ -57,7 +57,7 @@ ol {
 .result__video-container {
   position: relative;
   inline-size: 100%;
-  block-size: 366px;
+  block-size: 386px;
   margin-bottom: 16px;
 }
 
@@ -75,7 +75,10 @@ ol {
 }
 
 .content__details {
-  inline-size: 399px; /* TODO разобраться с нежёстким размером.*/
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  inline-size: 399px;
   block-size: 100%;
 }
 
@@ -83,8 +86,7 @@ ol {
   position: relative;
   block-size: 298px;
   text-overflow: clip;
-  overflow: scroll;
-  margin-top: 26px;
+  overflow: auto;
 }
 
 .content__list-item:not(:last-child) {
@@ -96,14 +98,14 @@ ol {
 }
 
 .title {
-  font-family: "Oswald";
+  appearance: none;
+  font-family: "Oswald", sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 75px;
-  line-height: 70.5px;
+  line-height: 70px;
   text-transform: uppercase;
   color: white;
-  word-spacing: -7px;
 }
 
 .content__video-card {
@@ -112,15 +114,41 @@ ol {
   align-items: start;
 }
 
+.content__card-link {
+  display: block;
+  padding: 2px;
+}
+
+.content__card-link:active {
+  background-color: #545050;
+}
+
+.content__list:focus {
+  outline: none;
+}
+
+.content__list:focus-visible {
+  outline: 1px solid #fff;
+}
+
+.content__card-link:focus {
+  outline: none;
+}
+
+.content__card-link:focus-visible {
+  outline: 1px solid #fff;
+}
+
 .content__video-card-thumbnail {
   inline-size: 194px;
   block-size: 103px;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
 }
 
 .content__video-card-description-container {
   flex-grow: 1;
+  max-inline-size: 200px;
 }
 
 .search-form__fieldset-title {
@@ -133,11 +161,17 @@ ol {
 
 .content__card-link {
   text-decoration: none;
+  margin: 2px;
   color: #fff;
 }
 
+.content__card-link_current {
+  background-color: #545050;
+}
+
 .content__video-card-title {
-  font-family: "Oswald";
+  padding-top: 2.4px;
+  font-family: "Oswald", sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 30px;
@@ -147,7 +181,12 @@ ol {
 
 .content__video-card-description {
   font-weight: 400;
-  line-height: 16px;
+  line-height: 16.2px;
+  margin-top: 4px;
+}
+
+.content__video-card-description-container:hover {
+  text-decoration: underline;
 }
 
 .visually-hidden {
@@ -165,7 +204,23 @@ fieldset {
 }
 
 .search-form__label {
+  display: flex;
+  gap: 5px;
+  align-items: center;
   width: fit-content;
+  cursor: pointer;
+}
+
+.search-form__textfield {
+  padding: 0;
+  margin: 0;
+}
+.search-form__textfield:focus {
+  outline: none;
+}
+
+.search-form__label:hover {
+  text-decoration: underline;
 }
 
 .search-form__textfield {
@@ -174,10 +229,21 @@ fieldset {
   width: 225px;
   border-top: 1px solid #fff;
   border-bottom: 1px solid #fff;
+  border-left: 1px solid transparent;
+  border-right: 1px solid transparent;
   font-weight: 400;
   font-size: 18px;
   line-height: 22px;
   color: rgba(255, 255, 255, 0.7);
+}
+
+.search-form__textfield:hover {
+  border: 1px solid #fff;
+}
+
+.search-form__label:has(:focus-visible) {
+  outline: 1px solid #fff;
+  outline-offset: 2px;
 }
 
 .search-form__checkbox-list {
@@ -191,12 +257,11 @@ fieldset {
   font-weight: 400;
   font-size: 18px;
   line-height: 21.6px;
-  color: rgba(255, 255, 255, 0.7);
 }
 
 .search-form__label-text {
   appearance: none;
-  font-family: "Fira Sans Condensed";
+  font-family: "Fira Sans Condensed", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
@@ -205,17 +270,24 @@ fieldset {
 
 .search-form__pseudo-checkbox {
   display: inline-block;
-  inline-size: 18px;
-  block-size: 18px;
+  inline-size: 19px;
+  block-size: 19px;
   border: 1px solid #fff;
 }
 
-input[type="checkbox"]:checked + .search-form__pseudo-checkbox {
+input[type="checkbox"]:checked + .search-form__pseudo-checkbox::after,
+input[type="checkbox"]:not(:checked)
+  + .search-form__pseudo-checkbox:active::after {
+  content: "";
+  display: block;
+  margin: 1px;
+  width: 15px;
+  height: 15px;
   background-color: #fff;
 }
 
 .button {
-  min-inline-size: 34px;
+  min-height: 34px;
   background-color: transparent;
   font-weight: 700;
   font-size: 18px;
@@ -226,12 +298,31 @@ input[type="checkbox"]:checked + .search-form__pseudo-checkbox {
   cursor: pointer;
 }
 
+.button:focus {
+  outline: none;
+}
+
+.button:focus-visible {
+  outline: 1px solid #fff;
+  outline-offset: 2px;
+}
+
+.button:hover {
+  text-decoration: underline;
+}
+
+.button:active {
+  background-color: #545050;
+  text-decoration: none;
+}
+
 .search-form__submit-button {
+  padding: 0;
   margin-top: 20px;
   min-width: 194px;
 }
 
 .more-button {
-  inline-size: 100%;
+  width: 100%;
   padding: 0;
 }
